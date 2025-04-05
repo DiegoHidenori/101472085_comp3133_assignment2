@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { Apollo, gql } from 'apollo-angular';
 import { RouterModule, Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 const LOGIN_QUERY = gql`
   query Login($email: String!, $password: String!) {
@@ -29,7 +30,7 @@ export class LoginComponent {
   errorMessage = '';
   successMessage = '';
 
-  constructor(private fb: FormBuilder, private apollo: Apollo, private router: Router) {
+  constructor(private fb: FormBuilder, private apollo: Apollo, private router: Router, private authService: AuthService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
@@ -48,6 +49,8 @@ export class LoginComponent {
           const token = result.data.login.token;
           localStorage.setItem('token', token);
           this.successMessage = 'Login successful! Redirecting...';
+
+          this.authService.setToken(token);
 
           setTimeout(() => {
             this.router.navigate(['/employees']);
