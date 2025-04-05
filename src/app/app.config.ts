@@ -17,7 +17,7 @@ export const appConfig: ApplicationConfig = {
   
         return {
           cache: new InMemoryCache(),
-          link: httpLink.create({ uri: 'http://localhost:3000/graphql' })
+          link: httpLink.create({ uri: 'https://comp3133-assignment1-backend-e7aac839623c.herokuapp.com/graphql' })
         };
       })
     ]
